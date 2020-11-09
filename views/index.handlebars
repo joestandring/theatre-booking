@@ -22,13 +22,17 @@
  			<p class="msg">{{msg}}</p>
 		{{/if}}
 	<main>
-		<h2>Latest play</h2>
-    <h3>{{latest.name}}</h3>
-    <img src="thumbnails/{{latest.thumb}}" />
-    <h4>First performance:</h4>
-    <p>{{latest.first}}</p>
-    <h4>Last performance:</h4>
-    <p>{{latest.last}}</p>
+    <h2>Upcoming performances</h2>
+    <br />
+    
+    <div class="imglink">
+      <img src="thumbnails/{{latest.thumb}}" />
+      <div class="imgcontent">
+        <h3>{{latest.name}}</h3>
+        <p>{{latest.first}} - {{latest.last}}</p>
+      </div>
+    </div>
+       
 		{{#if authorised}}
 			<p><a href="/secure">secure page</a></p>
 		{{/if}}

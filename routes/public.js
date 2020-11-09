@@ -25,7 +25,7 @@ publicRouter.get('/', async ctx => {
 	try {
     const records = await plays.all()
     console.log(records[0])
-    ctx.hbs.latest = records[0];
+    ctx.hbs.latest = records[0]
 		await ctx.render('index', ctx.hbs)
 	} catch(err) {
 		await ctx.render('error', ctx.hbs)

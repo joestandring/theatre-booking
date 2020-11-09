@@ -64,9 +64,33 @@ p, legend {
 }
 
 main {
-	width: 100%;
-	margin-left: 3vw;
-	/* background-color: pink; */
+  max-width: 800px;
+  margin: auto;
+  margin-top: 2em;
+	padding: 2em;
+  background-color: #f2f2f2;
+  text-align: center;
+}
+
+.imglink img {
+  width: 100%;
+}
+
+.imglink h3 {
+  color: #f2f2f2;
+}
+
+.imglink {
+  position: relative;
+  margin: 0 auto;
+}
+
+.imglink .imgcontent {
+  position: absolute;
+  bottom: 0;
+  background: #222;
+  color: #f2f2f2;
+  width: 100%;
 }
 
 article {
