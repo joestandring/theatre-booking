@@ -7,6 +7,22 @@
 
 import sqlite from 'sqlite-async'
 
+// Array tused to get month names
+const months = [
+  'January',
+  'Febuary',
+  'March',
+  'April',
+  'May',
+  'June',
+  'July',
+  'August',
+  'September',
+  'October',
+  'November',
+  'December'
+]
+
 /**
  * Functions for play operations
  */
@@ -45,10 +61,10 @@ class Plays {
     // Use dd/mm/yyyy date format for first and last performances
     for(const i in plays) {
       let dateTime = new Date(plays[i].first)
-      let date = `${dateTime.getDate()}/${dateTime.getMonth()+1}/${dateTime.getFullYear()}`
+      let date = `${dateTime.getDate()} ${months[dateTime.getMonth()]}`
       plays[i].first = date;
       dateTime = new Date(plays[i].last)
-      date = `${dateTime.getDate()}/${dateTime.getMonth()+1}/${dateTime.getFullYear()}`
+      date = `${dateTime.getDate()} ${months[dateTime.getMonth()]}`
       plays[i].last = date;
     }
     return plays
