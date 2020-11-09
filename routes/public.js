@@ -1,3 +1,9 @@
+/**
+ * Routes that can be accessed even without being logged in
+ * @module routes/public
+ * @author Joe Standring
+ * @see routes/routes for where this module is imported
+*/
 
 import Router from 'koa-router'
 import bodyParser from 'koa-body'
@@ -6,35 +12,36 @@ const publicRouter = new Router()
 publicRouter.use(bodyParser({multipart: true}))
 
 import { Accounts } from '../modules/accounts.js'
+import { Plays } from '../modules/plays.js'
 const dbName = 'website.db'
 
 /**
- * The secure home page.
- *
- * @name Home Page
+ * Dislpay the home page
+ * @name Home page
  * @route {GET} /
  */
 publicRouter.get('/', async ctx => {
+  const plays = await new Plays(dbName)
 	try {
+    const records = await plays.all()
+    console.log(records[0])
+    ctx.hbs.latest = records[0]
 		await ctx.render('index', ctx.hbs)
 	} catch(err) {
 		await ctx.render('error', ctx.hbs)
 	}
 })
 
-
 /**
- * The user registration page.
- *
- * @name Register Page
+ * The user registration page
+ * @name Register page
  * @route {GET} /register
  */
 publicRouter.get('/register', async ctx => await ctx.render('register'))
 
 /**
- * The script to process new user registrations.
- *
- * @name Register Script
+ * The script to process new user registrations
+ * @name Register script
  * @route {POST} /register
  */
 publicRouter.post('/register', async ctx => {
@@ -55,6 +62,11 @@ publicRouter.post('/register', async ctx => {
 
 publicRouter.get('/postregister', async ctx => await ctx.render('validate'))
 
+/**
+ * The script to validate users
+ * @name Validation script
+ * @route {GET} /validate/:user/:token
+ */
 publicRouter.get('/validate/:user/:token', async ctx => {
 	try {
 		console.log('VALIDATE')
@@ -73,11 +85,21 @@ publicRouter.get('/validate/:user/:token', async ctx => {
 	}
 })
 
+/**
+ * The user login page
+ * @name Login page
+ * @route {GET} /login
+ */
 publicRouter.get('/login', async ctx => {
 	console.log(ctx.hbs)
 	await ctx.render('login', ctx.hbs)
 })
 
+/**
+ * The user login script
+ * @name Login script
+ * @route {POST} /login
+ */
 publicRouter.post('/login', async ctx => {
 	const account = await new Accounts(dbName)
 	ctx.hbs.body = ctx.request.body
@@ -95,9 +117,15 @@ publicRouter.post('/login', async ctx => {
 	}
 })
 
+/**
+ * The user logout script
+ * @name Logout script
+ * @route {POST} /logout
+ */
 publicRouter.get('/logout', async ctx => {
 	ctx.session.authorised = null
 	ctx.redirect('/?msg=you are now logged out')
 })
 
+/** Export for use in other modules */
 export { publicRouter }

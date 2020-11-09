@@ -22,7 +22,17 @@
  			<p class="msg">{{msg}}</p>
 		{{/if}}
 	<main>
-		<p>This is the home page. Users can see it without logging in.</p>
+    <h2>Upcoming performances</h2>
+    <br />
+    
+    <div class="imglink">
+      <img src="thumbnails/{{latest.thumb}}" />
+      <div class="imgcontent">
+        <h3>{{latest.name}}</h3>
+        <p>{{latest.first}} - {{latest.last}}</p>
+      </div>
+    </div>
+       
 		{{#if authorised}}
 			<p><a href="/secure">secure page</a></p>
 		{{/if}}
