@@ -1,15 +1,23 @@
-/*
- * modules/accounts.js
+/**
  * Functions for user account management
-*/ 
+ * @module modules/accounts
+ * @author Joe Standring
+ * @see routes/public for where this module is imported
+*/
 
 import bcrypt from 'bcrypt-promise'
 import sqlite from 'sqlite-async'
 
 const saltRounds = 10
 
+/**
+ * Functions for user account operations
+ */
 class Accounts {
-
+  /**
+   * Create an account object
+   * @param {string} [dbName=":memory:"] The name of the database to use
+   */
 	constructor(dbName = ':memory:') {
 		return (async() => {
 			this.db = await sqlite.open(dbName)
@@ -65,4 +73,5 @@ class Accounts {
 	}
 }
 
+/** Export for use in other modules */
 export { Accounts }
