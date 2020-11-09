@@ -1,3 +1,7 @@
+/*
+ * routes/public.js
+ * Routes that can be accessed even without being logged in
+*/ 
 
 import Router from 'koa-router'
 import bodyParser from 'koa-body'

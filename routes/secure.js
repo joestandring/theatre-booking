@@ -1,3 +1,7 @@
+/*
+ * routes/secure.js
+ * Routes that can only be accessed when logged in
+*/ 
 
 import Router from 'koa-router'
 

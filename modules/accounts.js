@@ -1,3 +1,7 @@
+/*
+ * modules/accounts.js
+ * Functions for user account management
+*/ 
 
 import bcrypt from 'bcrypt-promise'
 import sqlite from 'sqlite-async'
