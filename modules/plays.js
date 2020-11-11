@@ -58,16 +58,22 @@ class Plays {
   async all() {
     const sql = 'SELECT * FROM plays;'
     const plays = await this.db.all(sql)
-    // Use dd/mm/yyyy date format for first and last performances
+    // Use DD/MONTH date format for first and last performances
     for(const i in plays) {
       let dateTime = new Date(plays[i].first)
       let date = `${dateTime.getDate()} ${months[dateTime.getMonth()]}`
-      plays[i].first = date;
+      plays[i].first = date
       dateTime = new Date(plays[i].last)
       date = `${dateTime.getDate()} ${months[dateTime.getMonth()]}`
-      plays[i].last = date;
+      plays[i].last = date
     }
     return plays
+  }
+
+  async getById(id) {
+    const sql = `SELECT * FROM plays WHERE id = ${id};`
+    const play = await this.db.all(sql)
+    return play
   }
 }
 

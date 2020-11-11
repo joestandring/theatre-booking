@@ -33,6 +33,23 @@ publicRouter.get('/', async ctx => {
 })
 
 /**
+ * Displays information about a play
+ * @name Play info
+ * @route {GET} /plays/:id
+ */
+publicRouter.get('/plays/:id([0-9]{1,})', async ctx => {
+  const plays = await new Plays(dbName)
+  try {
+    const records = await plays.getById(ctx.params.id)
+    console.log(records[0])
+    ctx.hbs.play = records[0]
+    await ctx.render('playinfo', ctx.hbs)
+  } catch(err) {
+    await ctx.render('error', ctx.hbs)
+  }
+})
+
+/**
  * The user registration page
  * @name Register page
  * @route {GET} /register

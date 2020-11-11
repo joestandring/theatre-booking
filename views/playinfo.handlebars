@@ -1,0 +1,32 @@
+<!doctype html>
+
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<title>Home Page</title>
+		<meta name="description" content="Information for a play">
+		<meta name="author" content="Joe Standring">
+		<link href="{{host}}/style.css" type="text/css" rel="stylesheet" />
+	</head>
+	<body>
+		<header>
+			<h1>Plays</h1>
+			{{#if authorised}}
+				<a href="/logout">Log out</a>
+			{{else}}
+				<a href="/login">Log in</a>
+			{{/if}}
+		</header>
+		{{#if msg}}
+ 			<p class="msg">{{msg}}</p>
+		{{/if}}
+    
+    <main>
+      <h2>{{play.name}}</h2>
+      <br />
+      
+      <img src="../photos/{{play.thumb}}" />
+      <p>asdf</p>
+    </main>
+	</body>
+</html>
