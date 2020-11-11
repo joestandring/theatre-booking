@@ -1,41 +1,46 @@
-
 <!doctype html>
 
 <html lang="en">
 	<head>
 		<meta charset="utf-8">
-		<title>Home Page</title>
-		<meta name="description" content="form to add new books">
-		<meta name="author" content="Mark Tyers">
+		<title>Home</title>
+		<meta name="description" content="Welcome to the theatre booking system">
+		<meta name="author" content="Joe Standring">
+    <link href="https://fonts.googleapis.com/css?family=Libre+Franklin:400,700" rel="stylesheet"> 
 		<link href="{{host}}/style.css" type="text/css" rel="stylesheet" />
 	</head>
 	<body>
 		<header>
-			<h1>Home</h1>
+      <a class="title" href="/"><b>THEATRE BOOKING</b></a>
 			{{#if authorised}}
-				<a href="/logout">Log out</a>
+				<a class="page" href="/logout">Log out</a>
 			{{else}}
-				<a href="/login">Log in</a>
+				<a class="page" href="/login">Log in</a>
 			{{/if}}
+      <a class="page" href="/plays">Plays</a>
+      <a class="page active" href="/">Home</a>
 		</header>
 		{{#if msg}}
  			<p class="msg">{{msg}}</p>
 		{{/if}}
-	<main>
-    <h2>Upcoming performances</h2>
-    <br />
     
-    <div class="imglink">
-      <img src="thumbnails/{{latest.thumb}}" />
-      <div class="imgcontent">
-        <h3>{{latest.name}}</h3>
-        <p>{{latest.first}} - {{latest.last}}</p>
+    <main>
+      <h1>Upcoming performances</h1>
+      <br />
+      
+      <div class="imglink">
+        <a href="/plays/{{latest.id}}">
+          <img src="thumbnails/{{latest.thumb}}" />
+          <div class="imgcontent">
+            <h2>{{latest.name}}</h2>
+            <p>{{latest.first}} - {{latest.last}}</p>
+          </div>
+        </a>
       </div>
+    </main>
+    
+    <div class="footer">
+      <p>&copy; Joe Standring 2020</p>
     </div>
-       
-		{{#if authorised}}
-			<p><a href="/secure">secure page</a></p>
-		{{/if}}
-	</main>
 	</body>
 </html>
