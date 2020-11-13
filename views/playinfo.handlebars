@@ -3,30 +3,95 @@
 <html lang="en">
 	<head>
 		<meta charset="utf-8">
-		<title>Home Page</title>
+		<title>{{play.name}}</title>
 		<meta name="description" content="Information for a play">
 		<meta name="author" content="Joe Standring">
+    <link href="https://fonts.googleapis.com/css?family=Libre+Franklin:400,700" rel="stylesheet"> 
 		<link href="{{host}}/style.css" type="text/css" rel="stylesheet" />
 	</head>
 	<body>
 		<header>
-			<h1>Plays</h1>
+      <a class="title" href="/"><b>THEATRE BOOKING</b></a>
 			{{#if authorised}}
-				<a href="/logout">Log out</a>
+				<a class="page" href="/logout">Log out</a>
 			{{else}}
-				<a href="/login">Log in</a>
+				<a class="page" href="/login">Log in</a>
 			{{/if}}
+      <a class="page active" href="/plays">Plays</a>
+      <a class="page" href="/">Home</a>
 		</header>
 		{{#if msg}}
  			<p class="msg">{{msg}}</p>
 		{{/if}}
     
     <main>
-      <h2>{{play.name}}</h2>
+      <h1>{{play.name}}</h1>
       <br />
       
       <img src="../photos/{{play.thumb}}" />
-      <p>asdf</p>
+      <p>{{play.description}}</p>
+      <h2>Performance dates</h2>
+      <div class="dates">
+        <div class="dateblock">
+          <p>
+            {{dates.[0]}}
+            Matinee
+          </p>
+          <p>
+            {{dates.[0]}}
+            Evening
+          </p>
+        </div>
+        <div class="dateblock">
+          <p>
+            {{dates.[1]}}
+            Matinee
+          </p>
+          <p>
+            {{dates.[1]}}
+            Evening
+          </p>
+        </div>
+        <div class="dateblock">
+          <p>
+            {{dates.[2]}}
+            Matinee
+          </p>
+          <p>
+            {{dates.[2]}}
+            Evening
+          </p>
+        </div>
+        <div class="dateblock">
+          <p>
+            {{dates.[3]}}
+            Matinee
+          </p>
+          <p>
+            {{dates.[3]}}
+            Evening
+          </p>
+        </div>
+        <div class="dateblock">
+          <p>
+            {{dates.[4]}}
+            Matinee
+          </p>
+          <p>
+            {{dates.[4]}}
+            Evening
+          </p>
+        </div>
+      </div>
+      <h2>Featuring</h2>
+      <p>{{play.actors}}</p>
+      <h2>Tickets remaining</h2>
+      <h1 class="tickets">{{play.ticketsLeft}}</h1>
+			<p><input type="submit" value="Book now"></p>
     </main>
+    
+    <div class="footer">
+      <p>&copy; Joe Standring 2020</p>
+    </div>
 	</body>
 </html>
