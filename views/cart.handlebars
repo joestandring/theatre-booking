@@ -8,8 +8,9 @@
 		<meta name="author" content="Joe Standring">
     <link href="https://fonts.googleapis.com/css?family=Libre+Franklin:400,700" rel="stylesheet"> 
 		<link href="{{host}}/style.css" type="text/css" rel="stylesheet" />
+    <script src="{{host}}/scripts/cart.js" async></script>
 	</head>
-	<body>
+	<body onload="showItems()">
 		<header>
       <a class="title" href="/"><b>THEATRE BOOKING</b></a>
 			{{#if authorised}}
@@ -27,6 +28,8 @@
     
     <main>
       <h1>Cart</h1>
+      <div id="cart">
+      </div>
     </main>
     
     <div class="footer">

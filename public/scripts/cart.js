@@ -29,3 +29,21 @@ function remove(play) {
     localStorage.removeItem(play)
   }
 }
+
+function showItems() {
+  let html = ''
+  for (let i = 0; i < localStorage.length; i++) {
+    html += `
+      <h2>${localStorage.key(i)}</h2>
+      <h3 class="tickets">${localStorage.getItem(localStorage.key(i))}</h3>
+      <form class="valuebutton" onsubmit="remove('${localStorage.key(i)}')">
+        <p><input type="submit" value="Remove ticket"></p>
+      </form>
+      <form class="valuebutton" onsubmit="add('${localStorage.key(i)}')">
+        <p><input type="submit" value="Add ticket"></p>
+      </form>
+    `
+  }
+  
+  document.getElementById('cart').innerHTML = html
+}
