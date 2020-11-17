@@ -14,30 +14,19 @@
       <a class="title" href="/"><b>THEATRE BOOKING</b></a>
 			{{#if authorised}}
 				<a class="page" href="/logout">Log out</a>
-        <a class="page" href="/secure/cart">Cart</a>
+        <a class="page active" href="/secure/cart">Cart</a>
 			{{else}}
 				<a class="page" href="/login">Log in</a>
 			{{/if}}
       <a class="page" href="/plays">Plays</a>
-      <a class="page active" href="/">Home</a>
+      <a class="page" href="/">Home</a>
 		</header>
 		{{#if msg}}
  			<p class="msg">{{msg}}</p>
 		{{/if}}
     
     <main>
-      <h1>Upcoming performances</h1>
-      <br />
-      
-      <div class="imglink">
-        <a href="/plays/{{latest.id}}">
-          <img src="thumbnails/{{latest.thumb}}" />
-          <div class="imgcontent">
-            <h2>{{latest.name}}</h2>
-            <p>{{latest.first}} - {{latest.last}}</p>
-          </div>
-        </a>
-      </div>
+      <h1>Cart</h1>
     </main>
     
     <div class="footer">
