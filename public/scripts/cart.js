@@ -30,6 +30,9 @@ function remove(play) {
   }
 }
 
+/**
+ * Inject HTML to list items in cart
+ */
 function showItems() {
   let html = ''
   for (let i = 0; i < localStorage.length; i++) {
