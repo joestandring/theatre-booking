@@ -7,12 +7,13 @@
 
 import Router from 'koa-router'
 import bodyParser from 'koa-body'
+import { Accounts } from '../modules/accounts.js'
+import { Plays } from '../modules/plays.js'
+import getDates from '../utilities/dateoperations.js'
 
 const publicRouter = new Router()
 publicRouter.use(bodyParser({multipart: true}))
 
-import { Accounts } from '../modules/accounts.js'
-import { Plays } from '../modules/plays.js'
 const dbName = 'website.db'
 
 /**
@@ -28,8 +29,28 @@ publicRouter.get('/', async ctx => {
     ctx.hbs.latest = records[0]
 		await ctx.render('index', ctx.hbs)
 	} catch(err) {
+    console.error(err)
 		await ctx.render('error', ctx.hbs)
 	}
+})
+
+/**
+ * Displays information about a play
+ * @name Play info
+ * @route {GET} /plays/:id
+ */
+publicRouter.get('/plays/:id([0-9]{1,})', async ctx => {
+  const plays = await new Plays(dbName)
+  try {
+    const records = await plays.getById(ctx.params.id)
+    console.log(records[0])
+    ctx.hbs.play = records[0]
+    ctx.hbs.dates = getDates(records[0].first, records[0].last)
+    await ctx.render('playinfo', ctx.hbs)
+  } catch(err) {
+    console.error(err)
+    await ctx.render('error', ctx.hbs)
+  }
 })
 
 /**
@@ -51,6 +72,7 @@ publicRouter.post('/register', async ctx => {
 		await account.register(ctx.request.body.user, ctx.request.body.pass, ctx.request.body.email)
 		ctx.redirect(`/login?msg=new user "${ctx.request.body.user}" added, you need to log in`)
 	} catch(err) {
+    console.error(err)
 		ctx.hbs.msg = err.message
 		ctx.hbs.body = ctx.request.body
 		console.log(ctx.hbs)
@@ -81,6 +103,7 @@ publicRouter.get('/validate/:user/:token', async ctx => {
 			await ctx.render('login', ctx.hbs)
 		}
 	} catch(err) {
+    console.error(err)
 		await ctx.render('login', ctx.hbs)
 	}
 })
@@ -110,6 +133,7 @@ publicRouter.post('/login', async ctx => {
 		const referrer = body.referrer || '/secure'
 		return ctx.redirect(`${referrer}?msg=you are now logged in...`)
 	} catch(err) {
+    console.error(err)
 		ctx.hbs.msg = err.message
 		await ctx.render('login', ctx.hbs)
 	} finally {

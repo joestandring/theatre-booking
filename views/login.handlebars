@@ -1,36 +1,46 @@
-
 <!doctype html>
 
 <html lang="en">
 	<head>
 		<meta charset="utf-8">
 		<title>Log In</title>
-		<meta name="description" content="form to add new books">
-		<meta name="author" content="Mark Tyers">
+		<meta name="description" content="Login form">
+		<meta name="author" content="Joe Standring">
 		<link href="{{host}}/style.css" type="text/css" rel="stylesheet" />
 	</head>
 	<body>
 		<header>
-		<h1>Log In</h1>
-		<a href="/register">Register</a>
+      <a class="title" href="/"><b>THEATRE BOOKING</b></a>
+			{{#if authorised}}
+				<a class="page" href="/logout">Log out</a>
+        <a class="page" href="/secure/cart">Cart</a>
+			{{else}}
+				<a class="page active" href="/login">Log in</a>
+			{{/if}}
+      <a class="page" href="/plays">Plays</a>
+      <a class="page" href="/">Home</a>
 		</header>
 		{{#if msg}}
  			<p class="msg">{{msg}}</p>
 		{{/if}}
 		<main>
-		<form action="/login" method="post">
-			<p>
-				<label for="user">Username</label><br />
-				<input type="text" name="user" placeholder="your username" value="{{body.user}}" autofocus>
-			</p>
-			<p>
-				<label for="pass">Password</label><br />
-				<input type="password" name="pass" placeholder="your password" value="{{body.pass}}">
-			</p>
-			<input type="hidden" name="referrer" value="{{referrer}}">
-			<p><input type="submit" value="Log in"></p>
-		</form>
-		<p><a href="/">Home page</a></p>
+      <form action="/login" method="post">
+        <p>
+          <label for="user">Username</label><br />
+          <input type="text" name="user" placeholder="your username" value="{{body.user}}" autofocus>
+        </p>
+        <p>
+          <label for="pass">Password</label><br />
+          <input type="password" name="pass" placeholder="your password" value="{{body.pass}}">
+        </p>
+        <input type="hidden" name="referrer" value="{{referrer}}">
+        <p><input type="submit" value="Log in"></p>
+      </form>
+      <p><a href="/">Home page</a></p>
 		</main>
+    
+    <div class="footer">
+      <p>&copy; Joe Standring 2020</p>
+    </div>
 	</body>
 </html>
