@@ -8,6 +8,7 @@
 		<meta name="author" content="Joe Standring">
     <link href="https://fonts.googleapis.com/css?family=Libre+Franklin:400,700" rel="stylesheet"> 
 		<link href="{{host}}/style.css" type="text/css" rel="stylesheet" />
+    <script src="{{host}}/scripts/cart.js" async></script>
 	</head>
 	<body>
 		<header>
@@ -87,7 +88,7 @@
       <p>{{play.actors}}</p>
       <h2>Tickets remaining</h2>
       <h1 class="tickets">{{play.ticketsLeft}}</h1>
-			<p><input type="submit" value="Book now"></p>
+      <p><input type="button" value="Book now" onclick="add('{{play.name}}')"></p>
     </main>
     
     <div class="footer">
