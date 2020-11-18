@@ -36,3 +36,15 @@ INSERT INTO plays(name, description, actors, thumb, ticketsLeft, ticketPrice, fi
     '2021-01-15',
     '2021-01-19'
   );
+  
+INSERT INTO plays(name, description, actors, thumb, ticketsLeft, ticketPrice, first, last)
+  VALUES(
+    'Death of a Salesman', 
+    'After many years on the road as a traveling salesman, Willy Loman realizes he has been a failure as a father and a husband. His sons, Happy and Biff, are not successful—on his terms (being “well liked”) or any others. His career fading, Willy escapes into dreamy reminiscences of an idealized past.',
+    'Wendell Pierce as Willy Loman, Shardon D. Clarke as Linda Loman, Sope Dirisu as Biff Loman',
+    'salesman.jpg',
+    16,
+    25,
+    '2021-01-22',
+    '2021-01-26'
+  );
