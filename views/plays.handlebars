@@ -3,8 +3,8 @@
 <html lang="en">
 	<head>
 		<meta charset="utf-8">
-		<title>Home</title>
-		<meta name="description" content="Welcome to the theatre booking system">
+		<title>Plays</title>
+		<meta name="description" content="All upcoming plays">
 		<meta name="author" content="Joe Standring">
     <link href="https://fonts.googleapis.com/css?family=Libre+Franklin:400,700" rel="stylesheet"> 
 		<link href="{{host}}/style.css" type="text/css" rel="stylesheet" />
@@ -18,15 +18,15 @@
 			{{else}}
 				<a class="page" href="/login">Log in</a>
 			{{/if}}
-      <a class="page" href="/plays">Plays</a>
-      <a class="page active" href="/">Home</a>
+      <a class="page active" href="/plays">Plays</a>
+      <a class="page" href="/">Home</a>
 		</header>
 		{{#if msg}}
  			<p class="msg">{{msg}}</p>
 		{{/if}}
     
     <main>
-      <h1>Upcoming performances</h1>
+      <h1>All plays</h1>
       <br />
       
       <div class="imglink">

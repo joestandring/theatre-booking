@@ -26,8 +26,26 @@ publicRouter.get('/', async ctx => {
 	try {
     const records = await plays.all()
     console.log(records[0])
-    ctx.hbs.latest = records[0]
+    ctx.hbs.records = records
 		await ctx.render('index', ctx.hbs)
+	} catch(err) {
+    console.error(err)
+		await ctx.render('error', ctx.hbs)
+	}
+})
+
+/**
+ * Dislpay all plays
+ * @name Home page
+ * @route {GET} /plays
+ */
+publicRouter.get('/plays', async ctx => {
+  const plays = await new Plays(dbName)
+	try {
+    const records = await plays.all()
+    console.log(records[0])
+    ctx.hbs.records = records
+		await ctx.render('plays', ctx.hbs)
 	} catch(err) {
     console.error(err)
 		await ctx.render('error', ctx.hbs)
