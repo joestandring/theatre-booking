@@ -301,3 +301,14 @@ td:last-child {
 .valuebutton {
   display: inline-block;
 }
+
+.ticketgroup {
+  display: inline-block;
+  background-color: lightgray;
+  border: 3px;
+  border-color: black;
+  border-style: solid;
+  padding: 10px;
+  margin: 5px;
+  margin-top: 0px;
+}

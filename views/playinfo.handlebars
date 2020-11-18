@@ -87,10 +87,26 @@
       </div>
       <h2>Featuring</h2>
       <p>{{play.actors}}</p>
-      <h2>Tickets remaining</h2>
-      <h1 class="tickets">{{play.ticketsLeft}} for £{{play.ticketPrice}}</h1>
+      <h2>Purchase tickets</h2>
       <form onsubmit="add('{{play.name}}')">
-        <p><input type="submit" value="Book now"></p>
+        <div class=ticketgroup>
+          <h3>Rear stall</h3>
+          <p>{{play.rearTickets}} tickets left</p>
+          <p>{{rear}}</p>
+          <p><input type="submit" value="Add to cart"></p>
+        </div>
+        <div class=ticketgroup>
+          <h3>Circle</h3>
+          <p>{{play.circleTickets}} tickets left</p>
+          <p>{{circle}}</p>
+          <p><input type="submit" value="Add to cart"></p>
+        </div>
+        <div class=ticketgroup>
+          <h3>Front stall</h3>
+          <p>{{play.frontTickets}} tickets left</p>
+          <p>{{front}}</p>
+          <p><input type="submit" value="Add to cart"></p>
+        </div>
       </form>
     </main>
     

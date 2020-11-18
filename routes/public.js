@@ -10,6 +10,7 @@ import bodyParser from 'koa-body'
 import { Accounts } from '../modules/accounts.js'
 import { Plays } from '../modules/plays.js'
 import getDates from '../utilities/dateoperations.js'
+import toPounds from '../utilities/currency.js'
 
 const publicRouter = new Router()
 publicRouter.use(bodyParser({multipart: true}))
@@ -64,6 +65,9 @@ publicRouter.get('/plays/:id([0-9]{1,})', async ctx => {
     console.log(records[0])
     ctx.hbs.play = records[0]
     ctx.hbs.dates = getDates(records[0].first, records[0].last)
+    ctx.hbs.rear = toPounds.format(records[0].ticketPrice)
+    ctx.hbs.circle = toPounds.format((records[0].ticketPrice / 2) + records[0].ticketPrice)
+    ctx.hbs.front = toPounds.format(records[0].ticketPrice * 2)
     await ctx.render('playinfo', ctx.hbs)
   } catch(err) {
     console.error(err)
