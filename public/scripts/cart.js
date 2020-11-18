@@ -31,9 +31,28 @@ function remove(play) {
 }
 
 /**
+ * Create an array of unique plays in the cart
+ * @returns An array of titles in the cart
+ */
+function getPlayTitles() {
+  const titles = []
+  for (let i = 0; i < localStorage.length; i++) {
+    title = localStorage.key(i).split(' - ')[0]
+    if (!titles.includes(title)) {
+      titles.push(title)
+    }
+  }
+
+  return titles
+}
+
+
+/**
  * Inject HTML to list items in cart
  */
-function showItems() {
+function showItems() {  
+  titles = getPlayTitles()
+  
   let html = ''
   for (let i = 0; i < localStorage.length; i++) {
     html += `

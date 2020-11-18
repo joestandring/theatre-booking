@@ -88,26 +88,32 @@
       <h2>Featuring</h2>
       <p>{{play.actors}}</p>
       <h2>Purchase tickets</h2>
-      <form onsubmit="add('{{play.name}}')">
-        <div class=ticketgroup>
+      <div class=ticketgroup>
+        <form onsubmit="add('{{play.name}} - Rear')">
           <h3>Rear stall</h3>
           <p>{{play.rearTickets}} tickets left</p>
           <p>{{rear}}</p>
           <p><input type="submit" value="Add to cart"></p>
-        </div>
-        <div class=ticketgroup>
+        </form>
+      </div>
+
+      <div class=ticketgroup>
+        <form onsubmit="add('{{play.name}} - Circle')">
           <h3>Circle</h3>
           <p>{{play.circleTickets}} tickets left</p>
           <p>{{circle}}</p>
           <p><input type="submit" value="Add to cart"></p>
-        </div>
-        <div class=ticketgroup>
+        </form>
+      </div>
+      
+      <div class=ticketgroup>
+        <form onsubmit="add('{{play.name}} - Front')">
           <h3>Front stall</h3>
           <p>{{play.frontTickets}} tickets left</p>
           <p>{{front}}</p>
           <p><input type="submit" value="Add to cart"></p>
-        </div>
-      </form>
+        </form>
+      </div>
     </main>
     
     <div class="footer">
