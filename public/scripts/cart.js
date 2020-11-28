@@ -5,6 +5,14 @@
  */
 
 /**
+ * Clear all tickets of a type from the cart
+ * @param{string} play The name of the tickets to clear
+ */
+function clearTickets(play) {
+  localStorage.removeItem(play)
+}
+
+/**
  * Add a play to the cart
  * @param{string} play The name of the play to add
  */
@@ -48,7 +56,7 @@ function getPlayTitles() {
 
 
 /**
- * Inject HTML to list items in cart
+ * Inject HTML to list items in cart sorted by play with controls
  */
 function showItems() {  
   const titles = getPlayTitles()
@@ -77,6 +85,9 @@ function showItems() {
           </form>
           <form class="valuebutton" onsubmit="add('${localStorage.key(j)}')">
             <p><input type="submit" value="Add ticket"></p>
+          </form>
+          <form class="valuebutton" onsubmit="clearTickets('${localStorage.key(j)}')">
+            <p><input type="submit" value="Clear"></p>
           </form>
         `
       }
