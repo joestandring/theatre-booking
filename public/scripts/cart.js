@@ -51,20 +51,35 @@ function getPlayTitles() {
  * Inject HTML to list items in cart
  */
 function showItems() {  
-  titles = getPlayTitles()
-  
+  const titles = getPlayTitles()
+  let playTickets = []
   let html = ''
-  for (let i = 0; i < localStorage.length; i++) {
+  
+  // Sort tickets into their plays in a 2d array
+  for (let i = 0; i < titles.length; i++) {
+    // Create a new array for each title
+    playTickets.push([])
+    // Add play header to HTML
     html += `
-      <h2>${localStorage.key(i)}</h2>
-      <h3 class="tickets">${localStorage.getItem(localStorage.key(i))}</h3>
-      <form class="valuebutton" onsubmit="remove('${localStorage.key(i)}')">
-        <p><input type="submit" value="Remove ticket"></p>
-      </form>
-      <form class="valuebutton" onsubmit="add('${localStorage.key(i)}')">
-        <p><input type="submit" value="Add ticket"></p>
-      </form>
+      <h2>${titles[i]}</h2>
     `
+    for (let j = 0; j < localStorage.length; j++) {
+      if(localStorage.key(j).split(' - ')[0] === titles[i]) {
+        console.log(localStorage.key(j) + ' is of play ' + titles[i])
+        playTickets[i].push(localStorage.key(j))
+        // Add the individual ticket and controls to html
+        html += `
+          <h3>${localStorage.key(j).split(' - ')[1]}
+          <h3 class="tickets">${localStorage.getItem(localStorage.key(j))}</h3>
+          <form class="valuebutton" onsubmit="remove('${localStorage.key(j)}')">
+            <p><input type="submit" value="Remove ticket"></p>
+          </form>
+          <form class="valuebutton" onsubmit="add('${localStorage.key(j)}')">
+            <p><input type="submit" value="Add ticket"></p>
+          </form>
+        `
+      }
+    }
   }
   
   document.getElementById('cart').innerHTML = html
