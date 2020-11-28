@@ -61,7 +61,8 @@ function showItems() {
     playTickets.push([])
     // Add play header to HTML
     html += `
-      <h2>${titles[i]}</h2>
+      <div class="cartgroup">
+        <h2>${titles[i]}</h2>
     `
     for (let j = 0; j < localStorage.length; j++) {
       if(localStorage.key(j).split(' - ')[0] === titles[i]) {
@@ -80,6 +81,10 @@ function showItems() {
         `
       }
     }
+    // Close the cartgroup div
+    html += `
+      </div>
+    `
   }
   
   document.getElementById('cart').innerHTML = html
