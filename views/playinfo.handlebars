@@ -89,7 +89,7 @@
       <p>{{play.actors}}</p>
       <h2>Purchase tickets</h2>
       <div class=ticketgroup>
-        <form onsubmit="add('{{play.name}} - Rear')">
+        <form onsubmit="add('{{play.name}} - Rear - {{rear}}')">
           <h3>Rear stall</h3>
           <p>{{play.rearTickets}} tickets left</p>
           <p>{{rear}}</p>
@@ -98,7 +98,7 @@
       </div>
 
       <div class=ticketgroup>
-        <form onsubmit="add('{{play.name}} - Circle')">
+        <form onsubmit="add('{{play.name}} - Circle - {{circle}}')">
           <h3>Circle</h3>
           <p>{{play.circleTickets}} tickets left</p>
           <p>{{circle}}</p>
@@ -107,7 +107,7 @@
       </div>
       
       <div class=ticketgroup>
-        <form onsubmit="add('{{play.name}} - Front')">
+        <form onsubmit="add('{{play.name}} - Front - {{front}}')">
           <h3>Front stall</h3>
           <p>{{play.frontTickets}} tickets left</p>
           <p>{{front}}</p>

@@ -5,6 +5,15 @@
  */
 
 /**
+ * Converts a number to GBP
+ */
+const toPounds = new Intl.NumberFormat('en-GB', {
+  style: 'currency',
+  currency: 'GBP',
+  minimumFractionDigits: 2
+})
+
+/**
  * Clear all tickets of a type from the cart
  * @param{string} play The name of the tickets to clear
  */
@@ -56,12 +65,13 @@ function getPlayTitles() {
 
 
 /**
- * Inject HTML to list items in cart sorted by play with controls
+ * Inject HTML to list items in cart sorted by play with controls and caluclate price
  */
 function showItems() {  
   const titles = getPlayTitles()
   let playTickets = []
   let html = ''
+  let playTotal = 0
   
   // Sort tickets into their plays in a 2d array
   for (let i = 0; i < titles.length; i++) {
@@ -72,14 +82,21 @@ function showItems() {
       <div class="cartgroup">
         <h2>${titles[i]}</h2>
     `
+    let ticketTotal = 0
     for (let j = 0; j < localStorage.length; j++) {
       if(localStorage.key(j).split(' - ')[0] === titles[i]) {
-        console.log(localStorage.key(j) + ' is of play ' + titles[i])
         playTickets[i].push(localStorage.key(j))
-        // Add the individual ticket and controls to html
+        // Add ticket cost
+        ticketTotal += ((localStorage.key(j).split(' - ')[2]).substring(1)) * localStorage.getItem(localStorage.key(j))
+        // Add the individual ticket and controls to html and calculate price
         html += `
           <h3>${localStorage.key(j).split(' - ')[1]}
           <h3 class="tickets">${localStorage.getItem(localStorage.key(j))}</h3>
+          <h3>
+            ${toPounds.format(
+              ((localStorage.key(j).split(' - ')[2]).substring(1)) * localStorage.getItem(localStorage.key(j))
+            )}
+          </h3>
           <form class="valuebutton" onsubmit="remove('${localStorage.key(j)}')">
             <p><input type="submit" value="Remove ticket"></p>
           </form>
@@ -92,11 +109,18 @@ function showItems() {
         `
       }
     }
+    playTotal += ticketTotal
     // Close the cartgroup div
     html += `
+      <h3>Total: ${toPounds.format(ticketTotal)}</h3>
       </div>
     `
   }
+  // Show total price
+  html += `
+    <h2>Cart total: </h2>
+    <h3>${toPounds.format(playTotal)}</h3>
+  `
   
   document.getElementById('cart').innerHTML = html
 }
