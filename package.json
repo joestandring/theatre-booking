@@ -24,6 +24,7 @@
 	"author": "Joe Standring",
 	"license": "ISC",
 	"dependencies": {
+		"ava": "^3.13.0",
 		"bcrypt": "^5.0.0",
 		"bcrypt-promise": "^2.0.0",
 		"handlebars": "^4.7.6",
@@ -37,7 +38,6 @@
 		"sqlite-async": "^1.1.0"
 	},
 	"devDependencies": {
-		"ava": "^3.12.1",
 		"depcheck": "^1.2.0",
 		"dependency": "0.0.1",
 		"dependency-check": "^4.1.0",

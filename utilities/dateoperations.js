@@ -24,8 +24,8 @@ const months = [
   'September',
   'October',
   'November',
-  'December'
-]
+  'December',
+];
 const days = [
   'Sunday',
   'Monday',
@@ -33,26 +33,24 @@ const days = [
   'Wednesday',
   'Thursday',
   'Friday',
-  'Saturday'
-]
+  'Saturday',
+];
 
 export default function getDates(first, last) {
 // Array tused to get month names
-  const dates = []
-  const dateStrings = []
-  const curDate = new Date(Date.parse(first))
-  const lastDate = new Date(Date.parse(last))
+  const dates = [];
+  const dateStrings = [];
+  const curDate = new Date(Date.parse(first));
+  const lastDate = new Date(Date.parse(last));
   while (curDate <= lastDate) {
-    dates.push(new Date(curDate))
-    curDate.setDate(curDate.getDate() + 1)
+    dates.push(new Date(curDate));
+    curDate.setDate(curDate.getDate() + 1);
   }
   for (const i in dates) {
     dateStrings[i] = `${days[dates[i].getDay()]}, \
       ${dates[i].getDate()} \
       ${months[dates[i].getMonth()]} \
-      ${dates[i].getFullYear()}`
+      ${dates[i].getFullYear()}`;
   }
-  console.log(dates)
-  console.log(dateStrings)
-  return dateStrings
+  return dateStrings;
 }
