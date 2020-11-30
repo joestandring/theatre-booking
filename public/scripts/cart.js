@@ -4,21 +4,25 @@
  * @author Joe Standring
  */
 
+/* eslint no-unused-vars: 0 */ // --> Turn unused vars off as they are used in injected HTML
+/* eslint indent: 0 */ // --> Turn off indent for injected HTML function calls
+/* eslint comma-dangle: 0 */ // --> Turn off trailing commas for injected HTML
+
 /**
  * Converts a number to GBP
  */
 const toPounds = new Intl.NumberFormat('en-GB', {
   style: 'currency',
   currency: 'GBP',
-  minimumFractionDigits: 2
-})
+  minimumFractionDigits: 2,
+});
 
 /**
  * Clear all tickets of a type from the cart
  * @param{string} play The name of the tickets to clear
  */
 function clearTickets(play) {
-  localStorage.removeItem(play)
+  localStorage.removeItem(play);
 }
 
 /**
@@ -27,10 +31,10 @@ function clearTickets(play) {
  */
 function add(play) {
   if (localStorage.getItem(play) === null) {
-    localStorage.setItem([play], 1)
+    localStorage.setItem([play], 1);
   } else {
-    const curAmount = parseInt(localStorage.getItem([play]))
-    localStorage.setItem([play], curAmount + 1)
+    const curAmount = parseInt(localStorage.getItem([play]), 10);
+    localStorage.setItem([play], curAmount + 1);
   }
 }
 
@@ -40,10 +44,10 @@ function add(play) {
  */
 function remove(play) {
   if (localStorage.getItem(play) > 1) {
-    const curAmount = parseInt(localStorage.getItem([play]))
-    localStorage.setItem([play], curAmount - 1)
+    const curAmount = parseInt(localStorage.getItem([play]), 10);
+    localStorage.setItem([play], curAmount - 1);
   } else {
-    localStorage.removeItem(play)
+    localStorage.removeItem(play);
   }
 }
 
@@ -52,42 +56,41 @@ function remove(play) {
  * @returns An array of titles in the cart
  */
 function getPlayTitles() {
-  const titles = []
-  for (let i = 0; i < localStorage.length; i++) {
-    title = localStorage.key(i).split(' - ')[0]
+  const titles = [];
+  for (let i = 0; i < localStorage.length; i += 1) {
+    const title = localStorage.key(i).split(' - ')[0];
     if (!titles.includes(title)) {
-      titles.push(title)
+      titles.push(title);
     }
   }
 
-  return titles
+  return titles;
 }
-
 
 /**
  * Inject HTML to list items in cart sorted by play with controls and caluclate price
  */
-function showItems() {  
-  const titles = getPlayTitles()
-  let playTickets = []
-  let html = ''
-  let playTotal = 0
-  
+function showItems() {
+  const titles = getPlayTitles();
+  const playTickets = [];
+  let html = '';
+  let playTotal = 0;
+
   // Sort tickets into their plays in a 2d array
-  for (let i = 0; i < titles.length; i++) {
+  for (let i = 0; i < titles.length; i += 1) {
     // Create a new array for each title
-    playTickets.push([])
+    playTickets.push([]);
     // Add play header to HTML
     html += `
       <div class="cartgroup">
         <h2>${titles[i]}</h2>
-    `
-    let ticketTotal = 0
-    for (let j = 0; j < localStorage.length; j++) {
-      if(localStorage.key(j).split(' - ')[0] === titles[i]) {
-        playTickets[i].push(localStorage.key(j))
+    `;
+    let ticketTotal = 0;
+    for (let j = 0; j < localStorage.length; j += 1) {
+      if (localStorage.key(j).split(' - ')[0] === titles[i]) {
+        playTickets[i].push(localStorage.key(j));
         // Add ticket cost
-        ticketTotal += ((localStorage.key(j).split(' - ')[2]).substring(1)) * localStorage.getItem(localStorage.key(j))
+        ticketTotal += ((localStorage.key(j).split(' - ')[2]).substring(1)) * localStorage.getItem(localStorage.key(j));
         // Add the individual ticket and controls to html and calculate price
         html += `
           <h3>${localStorage.key(j).split(' - ')[1]}
@@ -106,21 +109,21 @@ function showItems() {
           <form class="valuebutton" onsubmit="clearTickets('${localStorage.key(j)}')">
             <p><input type="submit" value="Clear"></p>
           </form>
-        `
+        `;
       }
     }
-    playTotal += ticketTotal
+    playTotal += ticketTotal;
     // Close the cartgroup div
     html += `
       <h3>Total: ${toPounds.format(ticketTotal)}</h3>
       </div>
-    `
+    `;
   }
   // Show total price
   html += `
     <h2>Cart total: </h2>
     <h3>${toPounds.format(playTotal)}</h3>
-  `
-  
-  document.getElementById('cart').innerHTML = html
+  `;
+
+  document.getElementById('cart').innerHTML = html;
 }
