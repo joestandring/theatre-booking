@@ -81,18 +81,43 @@ class Plays {
     return play;
   }
 
-  /*
-  async purchase(
-    play,
-    rear,
-    circle,
-    front,
-  ) {
-    const sql = `SELECT * FROM plays WHERE name = ${play}`;
-    const data = await this.db.all(sql);
-    return data;
+  /**
+   * Subtract from total ticket number when a purchase is made
+   * @prarm {string} play The name of the play to subtract from
+   * @param {number} rear The number of rear tickets to subtract
+   * @param {number} circle The number of circle tickets to subtract
+   * @param {number} circle The number of circle tickets to subtract
+   */
+  async purchase(name, rear, circle, front) {
+    let sql = `SELECT * FROM plays WHERE name = "${name}";`;
+    let data = await this.db.all(sql);
+    for (let i = 0; i < data.length; i += 1) {
+      // FIX THIS BY COMBINING STATEMENT
+      if((data[i].rearTickets - rear) < 0) {
+        return new Error('Not enough tickets remaining');
+      } else {
+        const newVal = data[i].rearTickets - rear;
+        sql = `UPDATE plays SET rearTickets = "${newVal}" WHERE name = "${data[i].name}";`;
+        data = await this.db.run(sql);
+      }
+      if((data[i].circleTickets - circle) < 0) {
+        return new Error('Not enough tickets remaining');
+      } else {
+        console.log('circle')
+        const newVal = data[i].circleTickets - circle;
+        sql = `UPDATE plays SET circleTickets = "${newVal}" WHERE name = "${data[i].name}";`;
+        data = await this.db.run(sql);
+      }
+      if((data[i].frontTickets - front) < 0) {
+        return new Error('Not enough tickets remaining');
+      } else {
+        console.log('front')
+        const newVal = data[i].frontTickets - front;
+        sql = `UPDATE plays SET frontTickets = "${newVal}" WHERE name = "${data[i].name}";`;
+        data = await this.db.run(sql);
+      }
+    }
   }
-  */
 }
 
 /** Export for use in other modules */

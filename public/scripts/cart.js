@@ -127,3 +127,56 @@ function showItems() {
 
   document.getElementById('cart').innerHTML = html;
 }
+
+function purchase() {
+  const titles = getPlayTitles();
+  
+  for (let i = 0; i < titles.length; i += 1) {
+    let rear = 0;
+    let circle = 0;
+    let front = 0;
+    
+    for (let j = 0; j < localStorage.length; j += 1) {
+      if (localStorage.key(j).split(' - ')[1] === 'Rear') {
+        if (localStorage.key(j).split(' - ')[0] === titles[i]) {
+          rear = localStorage.getItem(localStorage.key(j))
+        }
+      } else if (localStorage.key(j).split(' - ')[1] === 'Circle') {
+        if (localStorage.key(j).split(' - ')[0] === titles[i]) {
+          circle = localStorage.getItem(localStorage.key(j))
+        }
+      } else if (localStorage.key(j).split(' - ')[1] === 'Front') {
+        if (localStorage.key(j).split(' - ')[0] === titles[i]) {
+          front = localStorage.getItem(localStorage.key(j))
+        }
+      }
+    }
+    
+    console.log(JSON.stringify({
+      play: titles[i],
+      rear: rear,
+      circle: circle,
+      front: front,
+    }))
+    
+    fetch('/cart', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      mode: 'no-cors',
+      credentials: 'same-origin',
+      referrer: 'no-referrer',
+      body: JSON.stringify({
+        name: titles[i],
+        rear: rear,
+        circle: circle,
+        front: front,
+      })
+    })
+    .then(localStorage.clear())
+    .catch(error => {
+      window.location.replace(window.location.href + 'msg?Sorry, there is not enough tickets remaining for this order');
+    })
+  }
+}

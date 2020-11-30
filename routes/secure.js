@@ -41,30 +41,5 @@ secureRouter.get('/cart', async (ctx) => {
   }
 });
 
-/**
- * Script to subtract remaining tickets from shows on purchase
- * @name Cart update
- * @route {POST} /cart
- */
-secureRouter.post('/cart', async (ctx) => {
-  const play = await new Plays(dbName);
-
-  try {
-    if (ctx.hbs.authorised !== true) return ctx.redirect('/login?msg=you need to log in&referrer=/secure');
-    const temp = await play.purchase(
-      ctx.request.body.play,
-      ctx.request.body.rear,
-      ctx.request.body.circle,
-      ctx.request.body.front,
-    );
-    console.log(temp);
-    ctx.redirect('/?msg=Thank you for your purchase');
-  } catch (err) {
-    console.error(err);
-    ctx.hbs.msg = err.message;
-    ctx.hbs.body = ctx.request.body;
-  }
-});
-
 /** Export for use in other modules */
 export { secureRouter };
