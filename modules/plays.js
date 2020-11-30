@@ -70,10 +70,26 @@ class Plays {
     return plays
   }
 
+  /**
+   * Get an individual play by ID
+   * @param {number} id The ID of the play to get
+   * @returns {object} The play object
+   */
   async getById(id) {
     const sql = `SELECT * FROM plays WHERE id = ${id};`
     const play = await this.db.all(sql)
     return play
+  }
+  
+  async purchase(
+    play,
+    rear,
+    circle,
+    front
+  ) {
+    const sql = `SELECT * FROM plays WHERE name = ${play}`
+    const data = await this.db.all(sql)
+    return data
   }
 }
 
