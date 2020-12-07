@@ -1,5 +1,6 @@
 import test from 'ava';
 import { Plays } from '../modules/plays.js';
+
 const dbName = 'website.db';
 
 test('   GETALL   : retrieve all plays on the database', async (test) => {
@@ -23,5 +24,5 @@ test('   GETBYID  : error if invalid play ID', async (test) => {
   const plays = await new Plays(dbName);
   const getById = await plays.getById(999);
   test.is(getById[1], !true, 'play still returns successful');
-  plays.close
+  plays.close();
 });

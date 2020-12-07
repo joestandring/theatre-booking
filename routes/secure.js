@@ -6,10 +6,8 @@
 */
 
 import Router from 'koa-router';
-import { Plays } from '../modules/plays.js';
 
 const secureRouter = new Router({ prefix: '/secure' });
-const dbName = 'website.db';
 
 /**
  * The secure page
@@ -38,31 +36,6 @@ secureRouter.get('/cart', async (ctx) => {
   } catch (err) {
     ctx.hbs.error = err.message;
     await ctx.render('error', ctx.hbs);
-  }
-});
-
-/**
- * Script to subtract remaining tickets from shows on purchase
- * @name Cart update
- * @route {POST} /cart
- */
-secureRouter.post('/cart', async (ctx) => {
-  const play = await new Plays(dbName);
-
-  try {
-    if (ctx.hbs.authorised !== true) return ctx.redirect('/login?msg=you need to log in&referrer=/secure');
-    const temp = await play.purchase(
-      ctx.request.body.play,
-      ctx.request.body.rear,
-      ctx.request.body.circle,
-      ctx.request.body.front,
-    );
-    console.log(temp);
-    ctx.redirect('/?msg=Thank you for your purchase');
-  } catch (err) {
-    console.error(err);
-    ctx.hbs.msg = err.message;
-    ctx.hbs.body = ctx.request.body;
   }
 });
 
