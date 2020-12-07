@@ -26,7 +26,7 @@ publicRouter.get('/', async (ctx) => {
   const plays = await new Plays(dbName);
   try {
     const records = await plays.all();
-    ctx.hbs.records = records;
+    ctx.hbs.records = records[0];
     await ctx.render('index', ctx.hbs);
   } catch (err) {
     await ctx.render('error', ctx.hbs);
@@ -42,7 +42,7 @@ publicRouter.get('/plays', async (ctx) => {
   const plays = await new Plays(dbName);
   try {
     const records = await plays.all();
-    ctx.hbs.records = records;
+    ctx.hbs.records = records[0];
     await ctx.render('plays', ctx.hbs);
   } catch (err) {
     await ctx.render('error', ctx.hbs);
@@ -57,8 +57,9 @@ publicRouter.get('/plays', async (ctx) => {
 publicRouter.get('/plays/:id([0-9]{1,})', async (ctx) => {
   const plays = await new Plays(dbName);
   try {
-    const records = await plays.getById(ctx.params.id);
-    ctx.hbs.play = [records];
+    const getPlay = await plays.getById(ctx.params.id);
+    const records = getPlay[0];
+    ctx.hbs.play = records[0];
     ctx.hbs.dates = getDates(records[0].first, records[0].last);
     ctx.hbs.rear = toPounds.format(records[0].ticketPrice);
     ctx.hbs.circle = toPounds.format((records[0].ticketPrice / 2) + records[0].ticketPrice);

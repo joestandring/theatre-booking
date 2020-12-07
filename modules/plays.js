@@ -67,7 +67,7 @@ class Plays {
       date = `${dateTime.getDate()} ${months[dateTime.getMonth()]}`;
       plays[i].last = date;
     });
-    return plays;
+    return [plays, true];
   }
 
   /**
@@ -78,21 +78,15 @@ class Plays {
   async getById(id) {
     const sql = `SELECT * FROM plays WHERE id = ${id};`;
     const play = await this.db.all(sql);
-    return play;
+    if (play.length === 0) {
+      return ['Play not found', false];
+    }
+    return [play, true];
   }
 
-  /*
-  async purchase(
-    play,
-    rear,
-    circle,
-    front,
-  ) {
-    const sql = `SELECT * FROM plays WHERE name = ${play}`;
-    const data = await this.db.all(sql);
-    return data;
+  async close() {
+    await this.db.close();
   }
-  */
 }
 
 /** Export for use in other modules */
