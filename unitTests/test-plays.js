@@ -1,3 +1,7 @@
+/**
+ * Testing for play operations
+ */
+
 import test from 'ava';
 import { Plays } from '../modules/plays.js';
 

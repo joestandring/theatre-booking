@@ -1,3 +1,7 @@
+/**
+ * Testing for user account operations
+ */
+
 import test from 'ava';
 import { Accounts } from '../modules/accounts.js';
 
