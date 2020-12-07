@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: routes/public.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: routes/public.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
+ * Routes that can be accessed even without being logged in
+ * @module routes/public
+ * @author Joe Standring
+ * @see routes/routes for where this module is imported
+*/
+
+import Router from 'koa-router';
+import bodyParser from 'koa-body';
+import { Accounts } from '../modules/accounts.js';
+import { Plays } from '../modules/plays.js';
+import getDates from '../utilities/dateoperations.js';
+import toPounds from '../utilities/currency.js';
+
+const publicRouter = new Router();
+publicRouter.use(bodyParser({ multipart: true }));
+
+const dbName = 'website.db';
+
+/**
+ * Dislpay the home page
+ * @name Home page
+ * @route {GET} /
+ */
+publicRouter.get('/', async (ctx) => {
+  const plays = await new Plays(dbName);
+  try {
+    const records = await plays.all();
+    ctx.hbs.records = records[0];
+    await ctx.render('index', ctx.hbs);
+  } catch (err) {
+    await ctx.render('error', ctx.hbs);
+  }
+});
+
+/**
+ * Dislpay all plays
+ * @name Home page
+ * @route {GET} /plays
+ */
+publicRouter.get('/plays', async (ctx) => {
+  const plays = await new Plays(dbName);
+  try {
+    const records = await plays.all();
+    ctx.hbs.records = records[0];
+    await ctx.render('plays', ctx.hbs);
+  } catch (err) {
+    await ctx.render('error', ctx.hbs);
+  }
+});
+
+/**
+ * Displays information about a play
+ * @name Play info
+ * @route {GET} /plays/:id
+ */
+publicRouter.get('/plays/:id([0-9]{1,})', async (ctx) => {
+  const plays = await new Plays(dbName);
+  try {
+    const getPlay = await plays.getById(ctx.params.id);
+    const records = getPlay[0];
+    ctx.hbs.play = records[0];
+    ctx.hbs.dates = getDates(records[0].first, records[0].last);
+    ctx.hbs.rear = toPounds.format(records[0].ticketPrice);
+    ctx.hbs.circle = toPounds.format((records[0].ticketPrice / 2) + records[0].ticketPrice);
+    ctx.hbs.front = toPounds.format(records[0].ticketPrice * 2);
+    await ctx.render('playinfo', ctx.hbs);
+  } catch (err) {
+    await ctx.render('error', ctx.hbs);
+  }
+});
+
+/**
+ * The user registration page
+ * @name Register page
+ * @route {GET} /register
+ */
+publicRouter.get('/register', async (ctx) => ctx.render('register'));
+
+/**
+ * The script to process new user registrations
+ * @name Register script
+ * @route {POST} /register
+ */
+publicRouter.post('/register', async (ctx) => {
+  const account = await new Accounts(dbName);
+  try {
+    // call the functions in the module
+    await account.register(ctx.request.body.user, ctx.request.body.pass, ctx.request.body.email);
+    ctx.redirect(`/login?msg=new user "${ctx.request.body.user}" added, you need to log in`);
+  } catch (err) {
+    ctx.hbs.msg = err.message;
+    ctx.hbs.body = ctx.request.body;
+    await ctx.render('register', ctx.hbs);
+  } finally {
+    account.close();
+  }
+});
+
+publicRouter.get('/postregister', async (ctx) => ctx.render('validate'));
+
+/**
+ * The script to validate users
+ * @name Validation script
+ * @route {GET} /validate/:user/:token
+ */
+publicRouter.get('/validate/:user/:token', async (ctx) => {
+  try {
+    if (!ctx.request.url.includes('.css')) {
+      const milliseconds = 1000;
+      const now = Math.floor(Date.now() / milliseconds);
+      const account = await new Accounts(dbName);
+      await account.checkToken(ctx.params.user, ctx.params.token, now);
+      ctx.hbs.msg = `account "${ctx.params.user}" has been validated`;
+      await ctx.render('login', ctx.hbs);
+    }
+  } catch (err) {
+    await ctx.render('login', ctx.hbs);
+  }
+});
+
+/**
+ * The user login page
+ * @name Login page
+ * @route {GET} /login
+ */
+publicRouter.get('/login', async (ctx) => {
+  await ctx.render('login', ctx.hbs);
+});
+
+/**
+ * The user login script
+ * @name Login script
+ * @route {POST} /login
+ */
+publicRouter.post('/login', async (ctx) => {
+  const account = await new Accounts(dbName);
+  ctx.hbs.body = ctx.request.body;
+  try {
+    const { body } = ctx.request;
+    await account.login(body.user, body.pass);
+    ctx.session.authorised = true;
+    const referrer = body.referrer || '/secure';
+    return ctx.redirect(`${referrer}?msg=you are now logged in...`);
+  } catch (err) {
+    ctx.hbs.msg = err.message;
+    await ctx.render('login', ctx.hbs);
+  } finally {
+    account.close();
+  }
+});
+
+/**
+ * The user logout script
+ * @name Logout script
+ * @route {POST} /logout
+ */
+publicRouter.get('/logout', async (ctx) => {
+  ctx.session.authorised = null;
+  ctx.redirect('/?msg=you are now logged out');
+});
+
+/** Export for use in other modules */
+export { publicRouter };
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-docs.html">docs</a></li><li><a href="module-modules_accounts.html">modules/accounts</a></li><li><a href="module-modules_plays.html">modules/plays</a></li><li><a href="module-routes_public.html">routes/public</a></li><li><a href="module-routes_routes.html">routes/routes</a></li><li><a href="module-routes_secure.html">routes/secure</a></li><li><a href="module-utilities_dateoperations.html">utilities/dateoperations</a></li><li><a href="public_scripts_cart.module_js.html">js</a></li><li><a href="utilities_currency.module_js.html">js</a></li></ul><h3>Classes</h3><ul><li><a href="module-modules_accounts-Accounts.html">Accounts</a></li><li><a href="module-modules_plays-Plays.html">Plays</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.5</a> on Mon Dec 07 2020 17:13:16 GMT+0000 (GMT)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

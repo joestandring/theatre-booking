@@ -17,7 +17,7 @@
 		"packagedeps": "./node_modules/.bin/depcheck .",
 		"dependency": "./node_modules/.bin/dependency-check -i bcrypt --unused --no-dev . && node_modules/.bin/dependency-check --missing .",
 		"start": "nodemon index.js",
-		"jsdoc": "node_modules/.bin/jsdoc -c jsdoc.conf",
+		"jsdoc": "node_modules/.bin/jsdoc -c jsdoc.conf && nodemon docs.js",
 		"linter": "node_modules/.bin/eslint .",
 		"test": "ava"
 	},
@@ -30,6 +30,7 @@
 		"handlebars": "^4.7.6",
 		"koa": "^2.13.0",
 		"koa-body": "^4.2.0",
+		"koa-mount": "^4.0.0",
 		"koa-router": "^9.4.0",
 		"koa-session": "^6.0.0",
 		"koa-static": "^5.0.0",
