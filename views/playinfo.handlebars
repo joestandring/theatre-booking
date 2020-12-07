@@ -87,6 +87,7 @@
       </div>
       <h2>Featuring</h2>
       <p>{{play.actors}}</p>
+      {{#if authorised}}
       <h2>Purchase tickets</h2>
       <div class=ticketgroup>
         <form onsubmit="add('{{play.name}} - Rear - {{rear}}')">
@@ -114,6 +115,7 @@
           <p><input type="submit" value="Add to cart"></p>
         </form>
       </div>
+      {{/if}}
     </main>
     
     <div class="footer">
