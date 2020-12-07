@@ -58,7 +58,7 @@ publicRouter.get('/plays/:id([0-9]{1,})', async (ctx) => {
   const plays = await new Plays(dbName);
   try {
     const records = await plays.getById(ctx.params.id);
-    ctx.hbs.play = records[0];
+    ctx.hbs.play = [records];
     ctx.hbs.dates = getDates(records[0].first, records[0].last);
     ctx.hbs.rear = toPounds.format(records[0].ticketPrice);
     ctx.hbs.circle = toPounds.format((records[0].ticketPrice / 2) + records[0].ticketPrice);
@@ -157,27 +157,6 @@ publicRouter.post('/login', async (ctx) => {
 publicRouter.get('/logout', async (ctx) => {
   ctx.session.authorised = null;
   ctx.redirect('/?msg=you are now logged out');
-});
-
-/**
- * Script to subtract remaining tickets from shows on purchase
- * @name Cart update
- * @route {POST} /cart
- */
-publicRouter.post('/cart', async (ctx) => {
-  const body = JSON.parse(ctx.request.body);
-  const play = await new Plays(dbName);
-  try {
-    await play.purchase(
-      body.name,
-      body.rear,
-      body.circle,
-      body.front,
-    );
-    ctx.redirect('/?msg=Thank you for your purchase');
-  } catch (err) {
-    return err;
-  }
 });
 
 /** Export for use in other modules */
