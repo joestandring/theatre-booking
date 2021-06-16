@@ -1,4 +1,5 @@
 # Theatre Booking System
+# This repo is a mirror of a project developed as part of my education at Coventry University. It is not intended to be used, simply to archive my work.
 ## Implemented Features
 ### Stage 1
 #### Part 1
